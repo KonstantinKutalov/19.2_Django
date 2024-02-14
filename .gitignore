@@ -16,3 +16,12 @@ db.sqlite3
 
 # Environment
 .env
+
+# IPython history file
+.ipython/
+
+# Pillow cache
+Pillow/
+
+# Virtual environment
+venv/
