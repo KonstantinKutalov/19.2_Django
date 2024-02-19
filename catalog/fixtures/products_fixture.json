@@ -1,0 +1,119 @@
+[
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "name": "Телефон",
+      "category": 1,
+      "attribute1": "Производитель: Samsung",
+      "attribute2": "Модель: Galaxy S23",
+      "price": 899.99,
+      "created_at": "2024-02-19T12:00:00Z",
+      "updated_at": "2024-02-19T12:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "name": "Ноутбук",
+      "category": 1,
+      "attribute1": "Производитель: Apple",
+      "attribute2": "Модель: MacBook Pro 14",
+      "price": 1499.99,
+      "created_at": "2024-02-19T12:00:00Z",
+      "updated_at": "2024-02-19T12:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "name": "Планшет",
+      "category": 1,
+      "attribute1": "Производитель: Huawei",
+      "attribute2": "Модель: MatePad Pro 11",
+      "price": 699.99,
+      "created_at": "2024-02-19T12:00:00Z",
+      "updated_at": "2024-02-19T12:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+      "name": "Футболка",
+      "category": 2,
+      "attribute1": "Размер: M",
+      "attribute2": "Цвет: Белый",
+      "price": 19.99,
+      "created_at": "2024-02-19T12:00:00Z",
+      "updated_at": "2024-02-19T12:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+      "name": "Джинсы",
+      "category": 2,
+      "attribute1": "Размер: W32 L34",
+      "attribute2": "Цвет: Синий",
+      "price": 49.99,
+      "created_at": "2024-02-19T12:00:00Z",
+      "updated_at": "2024-02-19T12:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+      "name": "Платье",
+      "category": 2,
+      "attribute1": "Размер: S",
+      "attribute2": "Цвет: Красный",
+      "price": 39.99,
+      "created_at": "2024-02-19T12:00:00Z",
+      "updated_at": "2024-02-19T12:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+      "name": "Художественная литература",
+      "category": 3,
+      "attribute1": "Автор: Михаил Булгаков",
+      "attribute2": "Название: Мастер и Маргарита",
+      "price": 24.99,
+      "created_at": "2024-02-19T12:00:00Z",
+      "updated_at": "2024-02-19T12:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 8,
+    "fields": {
+      "name": "Научная литература",
+      "category": 3,
+      "attribute1": "Автор: Ричард Фейнман",
+      "attribute2": "Название: Фейнмановские лекции по физике",
+      "price": 29.99,
+      "created_at": "2024-02-19T12:00:00Z",
+      "updated_at": "2024-02-19T12:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 9,
+    "fields": {
+      "name": "Учебная литература",
+      "category": 3,
+      "attribute1": "Автор: Scott Adams",
+      "attribute2": "Название: Dilbert and the Way of the Weasel",
+      "price": 19.99,
+      "created_at": "2024-02-19T12:00:00Z",
+      "updated_at": "2024-02-19T12:00:00Z"
+    }
+  }
+]

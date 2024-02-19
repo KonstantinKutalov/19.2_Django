@@ -16,10 +16,16 @@ class Command(BaseCommand):
         with open('categories_fixture.json', 'r', encoding='utf-8') as file:
             categories_data = json.load(file)
         for category_data in categories_data:
-            Category.objects.create(name=category_data['name'])
+            Category.objects.create(name=category_data['fields']['name'])
 
         with open('products_fixture.json', 'r', encoding='utf-8') as file:
             products_data = json.load(file)
         for product_data in products_data:
-            category = Category.objects.get(name=product_data['category'])
-            Product.objects.create(name=product_data['name'], category=category, attribute1=value1, attribute2=value2)
+            category_id = product_data['fields']['category']
+            category = Category.objects.get(pk=category_id)
+            Product.objects.create(
+                name=product_data['fields']['name'],
+                category=category,
+                attribute1=product_data['fields']['attribute1'],
+                attribute2=product_data['fields']['attribute2']
+            )

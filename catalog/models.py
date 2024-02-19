@@ -45,6 +45,8 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения')
     manufactured_at = models.DateField(default=timezone.now, verbose_name='Дата производства продукта')
+    attribute1 = models.CharField(max_length=100, blank=True, null=True, verbose_name='Атрибут 1')
+    attribute2 = models.CharField(max_length=100, blank=True, null=True, verbose_name='Атрибут 2')
 
     class Meta:
         verbose_name = 'Продукт'
@@ -52,3 +54,4 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
