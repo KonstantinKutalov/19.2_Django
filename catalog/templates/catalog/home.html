@@ -6,10 +6,16 @@
         {% for product in products %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
-                <img src="{{ product.image_url }}" class="card-img-top" alt="{{ product.name }}">
+                {% if product.image_url %}
+                <a href="/product/{{ product.id }}">
+                    <img src="{{ product.image_url }}" class="card-img-top" alt="{{ product.name }}">
+                </a>
+                {% else %}
+                <div class="no-image-placeholder"></div>
+                {% endif %}
                 <div class="card-body">
                     <h4 class="card-title">{{ product.name }}</h4>
-                    <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text">{{ product.description|truncatechars:100 }}</p>
                     <h5 class="card-title pricing-card-title">${{ product.price }}</h5>
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                         <li>- Неограниченная лицензия</li>
@@ -24,5 +30,4 @@
         {% endfor %}
     </div>
 </div>
-
 {% endblock %}
