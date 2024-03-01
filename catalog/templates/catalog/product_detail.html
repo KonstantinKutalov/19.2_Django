@@ -18,7 +18,7 @@
                     <p>{{ product.description }}</p>
                     <p>Цена: ${{ product.price }}</p>
                     {% if product.image %}
-                    <img src="{{ product.image.url|add_media_prefix }}" class="img-fluid border-image"
+                    <img src="{{ product.image |add_media_prefix }}" class="img-fluid border-image"
                          alt="{{ product.name }}">
                     {% else %}
                     <p>Изображение отсутствует</p>
