@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ blog_post.title }}</h1>
+<p>{{ blog_post.content }}</p>
+<p>Превью:</p>
+{% if blog_post.preview %}
+    <img src="{{ blog_post.preview.url }}" alt="Превью">
+{% else %}
+    <p>Превью не доступно</p>
+{% endif %}
+{% endblock %}

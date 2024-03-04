@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Список блоговых записей</h1>
+  <ul>
+    {% for post in blog_posts %}
+      <li><a href="{% url 'blog_post_detail' pk=post.pk %}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

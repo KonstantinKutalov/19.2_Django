@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.template.defaultfilters import slugify
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -12,7 +13,6 @@ class Student(models.Model):
     first_name = models.CharField(max_length=100, verbose_name='имя')
     last_name = models.CharField(max_length=100, verbose_name='фамилия')
     avatar = models.ImageField(upload_to="students/", verbose_name='аватар', **NULLABLE)
-
     is_active = models.BooleanField(default=True, verbose_name='учится')
 
     def __str__(self):
@@ -55,3 +55,23 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+
+class BlogPost(models.Model):
+    title = models.CharField(max_length=100, verbose_name='Заголовок')
+    slug = models.SlugField(max_length=100, unique=True, verbose_name='URL-адрес')
+    content = models.TextField(verbose_name='Содержание')
+    preview = models.ImageField(upload_to='blog_previews/', blank=True, null=True, verbose_name='Превью')
+    created_at = models.DateTimeField(default=timezone.now, verbose_name='Дата создания')
+    published = models.BooleanField(default=False, verbose_name='Опубликовано')
+    views_count = models.IntegerField(default=0, verbose_name='Количество просмотров')
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Блоговая запись'
+        verbose_name_plural = 'Блоговые записи'
