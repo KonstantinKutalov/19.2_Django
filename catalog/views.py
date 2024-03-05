@@ -2,13 +2,13 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.utils.text import slugify
-from .models import BlogPost
+from .models import BlogPost, Product
 
 
 class HomeView(ListView):
-    model = BlogPost
+    model = Product
     template_name = 'catalog/home.html'
-    context_object_name = 'blog_posts'
+    context_object_name = 'products'
 
 
 class ContactView(TemplateView):
@@ -16,9 +16,9 @@ class ContactView(TemplateView):
 
 
 class ProductDetailView(DetailView):
-    model = BlogPost
+    model = Product
     template_name = 'catalog/product_detail.html'
-    context_object_name = 'blog_post'
+    context_object_name = 'product'
 
 
 class BlogPostListView(ListView):

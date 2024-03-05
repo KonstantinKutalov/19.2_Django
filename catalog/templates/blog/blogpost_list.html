@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Список блоговых записей</h1>
-  <ul>
-    {% for post in blog_posts %}
-      <li><a href="{% url 'blog_post_detail' pk=post.pk %}">{{ post.title }}</a></li>
-    {% endfor %}
-  </ul>
+<div class="container">
+    <h1>Список блоговых записей</h1>
+    <ul class="list-group">
+        {% for post in blog_posts %}
+            <li class="list-group-item">
+                <h5>{{ post.title }}</h5>
+                <p>{{ post.preview }}</p>
+                <small>{{ post.published_date }}</small>
+                <a href="{% url 'blog_post_detail' pk=post.pk %}" class="btn btn-primary">Подробнее <i class="fas fa-chevron-right"></i></a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
