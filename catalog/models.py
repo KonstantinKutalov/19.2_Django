@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.template.defaultfilters import slugify
+from django.utils.translation import gettext_lazy as _
+
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -75,3 +77,36 @@ class BlogPost(models.Model):
     class Meta:
         verbose_name = 'Блоговая запись'
         verbose_name_plural = 'Блоговые записи'
+
+
+class Recipient(models.Model):
+    email = models.EmailField(_('Email'))
+    full_name = models.CharField(_('Full Name'), max_length=100)
+    comment = models.TextField(_('Comment'), blank=True)
+
+    def __str__(self):
+        return self.email
+
+class MailingSettings(models.Model):
+    TIME_CHOICES = (
+        ('daily', _('Daily')),
+        ('weekly', _('Weekly')),
+        ('monthly', _('Monthly')),
+    )
+    send_time = models.TimeField(_('Send Time'))
+    frequency = models.CharField(_('Frequency'), max_length=10, choices=TIME_CHOICES)
+    status = models.CharField(_('Status'), max_length=20, default='created')
+
+class Message(models.Model):
+    subject = models.CharField(_('Subject'), max_length=255)
+    body = models.TextField(_('Body'))
+
+class MailingLog(models.Model):
+    recipient = models.ForeignKey(Recipient, on_delete=models.CASCADE)
+    mailing_settings = models.ForeignKey(MailingSettings, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20)
+    server_response = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.recipient.email} - {self.timestamp}"

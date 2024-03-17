@@ -1,8 +1,11 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView, DeleteView, CreateView, \
+    UpdateView, ListView, DetailView
 from django.urls import reverse_lazy
 from django.utils.text import slugify
-from .models import BlogPost, Product
+from .models import BlogPost, Product, Recipient, MailingSettings, Message
+from .forms import RecipientForm, MailingSettingsForm, MessageForm
+
 
 
 class HomeView(ListView):
@@ -69,3 +72,49 @@ class BlogPostDeleteView(DeleteView):
     success_url = reverse_lazy('blog_post_list')
     template_name = 'blog/blogpost_confirm_delete.html'
     context_object_name = 'blog_post'
+
+
+class RecipientCreateView(CreateView):
+    model = Recipient
+    form_class = RecipientForm
+    success_url = reverse_lazy('recipient_list')
+
+
+class RecipientUpdateView(UpdateView):
+    model = Recipient
+    form_class = RecipientForm
+    success_url = reverse_lazy('recipient_list')
+
+
+class RecipientListView(ListView):
+    model = Recipient
+
+
+class MailingSettingsCreateView(CreateView):
+    model = MailingSettings
+    form_class = MailingSettingsForm
+    success_url = reverse_lazy('mailingsettings_list')
+
+
+class MailingSettingsUpdateView(UpdateView):
+    model = MailingSettings
+    form_class = MailingSettingsForm
+    success_url = reverse_lazy('mailingsettings_list')
+
+
+class MailingSettingsListView(ListView):
+    model = MailingSettings
+
+
+class MessageCreateView(CreateView):
+    model = Message
+    form_class = MessageForm
+    success_url = reverse_lazy('message_list')
+
+
+class MessageListView(ListView):
+    model = Message
+
+
+class MessageDetailView(DetailView):
+    model = Message
