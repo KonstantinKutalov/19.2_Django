@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.template.defaultfilters import slugify
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ObjectDoesNotExist
 
 
 NULLABLE = {'blank': True, 'null': True}
@@ -110,3 +111,22 @@ class MailingLog(models.Model):
 
     def __str__(self):
         return f"{self.recipient.email} - {self.timestamp}"
+
+
+# Задачи от 14го
+
+class Version(models.Model):
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    version_number = models.CharField(max_length=100)
+    version_name = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.product} - {self.version_number} ({self.version_name})"
+
+    @staticmethod
+    def get_active_version_for_product(product):
+        try:
+            return Version.objects.get(product=product, is_active=True)
+        except Version.DoesNotExist:
+            return None

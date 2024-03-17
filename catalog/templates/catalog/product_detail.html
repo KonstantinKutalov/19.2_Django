@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
-
 {% block content %}
-{% load custom_filters %} {# Загрузка кастомного шаблонного фильтра #}
 <style>
     .border-image {
         border: 6px solid black; /* Черная рамка толщиной 6px */
@@ -18,10 +16,13 @@
                     <p>{{ product.description }}</p>
                     <p>Цена: ${{ product.price }}</p>
                     {% if product.image %}
-                    <img src="{{ product.image |add_media_prefix }}" class="img-fluid border-image"
+                    <img src="{{ product.image.url }}" class="img-fluid border-image"
                          alt="{{ product.name }}">
                     {% else %}
                     <p>Изображение отсутствует</p>
+                    {% endif %}
+                    {% if active_version %}
+                        <p>Активная версия: {{ active_version.version_number }} - {{ active_version.version_name }}</p>
                     {% endif %}
                 </div>
             </div>

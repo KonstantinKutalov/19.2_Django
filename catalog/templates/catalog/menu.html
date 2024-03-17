@@ -1,8 +1,6 @@
-<nav>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/products/">Products</a></li>
-        <li><a href="/about/">About Us</a></li>
-        <li><a href="/contact/">Contact Us</a></li>
-    </ul>
+<nav class="ms-5">
+    <a class="btn btn-outline-primary" href="/">Каталог</a>
+    <a class="btn btn-outline-primary" href="/contacts/">Контакты</a>
+    <a class="btn btn-outline-primary" href="{% url 'blog_post_list' %}">Перейти к блогу</a>
+    <a class="btn btn-outline-primary" href="{% url 'product_list' %}">Добавить товар</a>
 </nav>

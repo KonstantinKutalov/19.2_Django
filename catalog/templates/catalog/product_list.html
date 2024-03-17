@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Список продуктов</h1>
+<div class="row">
+    {% for product in products %}
+    <div class="col-md-4">
+        <div class="card product-card">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">Цена: ${{ product.price }}</p>
+                {% if product.active_version %}
+                <p class="version-info">Активная версия: {{ product.active_version.version_number }} - {{
+                    product.active_version.version_name }}</p>
+                {% endif %}
+                <!-- Ссылки для просмотра, изменения и удаления продукта -->
+                <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">Подробнее</a>
+                <a href="{% url 'product_update' product.id %}" class="btn btn-warning">Изменить</a>
+                <a href="{% url 'product_delete' product.id %}" class="btn btn-danger">Удалить</a>
+                <form action="{% url 'version_form' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <button type="submit" class="btn btn-info mt-2">Уточнить версию</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<a class="btn btn-outline-primary mt-3" href="{% url 'product_create' %}">Добавить товар</a>
+{% endblock %}

@@ -3,8 +3,10 @@ from django.views.generic import TemplateView, DeleteView, CreateView, \
     UpdateView, ListView, DetailView
 from django.urls import reverse_lazy
 from django.utils.text import slugify
-from .models import BlogPost, Product, Recipient, MailingSettings, Message
-from .forms import RecipientForm, MailingSettingsForm, MessageForm
+from .models import BlogPost, Product, Recipient, MailingSettings, Message, Version
+from .forms import RecipientForm, MailingSettingsForm, MessageForm, ProductForm, VersionFormStyled
+from django.shortcuts import render
+from django.http import HttpResponse
 
 
 
@@ -118,3 +120,54 @@ class MessageListView(ListView):
 
 class MessageDetailView(DetailView):
     model = Message
+
+
+# Задачи от 14го
+
+
+class ProductListView(ListView):
+    model = Product
+    template_name = 'product_list.html'
+    context_object_name = 'products'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = context['products']
+        active_versions = {}
+        for product in products:
+            active_version = Version.get_active_version_for_product(product)
+            active_versions[product.pk] = active_version
+        context['active_versions'] = active_versions
+        return context
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'product_form.html'
+    success_url = reverse_lazy('product_list')
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'product_form.html'
+    success_url = reverse_lazy('product_list')
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = 'product_confirm_delete.html'
+    success_url = reverse_lazy('product_list')
+
+
+def version_form(request):
+    if request.method == 'POST':
+        form = VersionFormStyled(request.POST)
+        if form.is_valid():
+            # Обработка валидной формы
+            form.save()
+            return HttpResponse('Form submitted successfully!')
+    else:
+        form = VersionFormStyled()
+    return render(request, 'version_form.html', {'form': form})

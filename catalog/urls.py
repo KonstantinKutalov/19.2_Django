@@ -23,5 +23,12 @@ urlpatterns = [
     path('message/', MessageListView.as_view(), name='message_list'),
     path('message/<int:pk>/', MessageDetailView.as_view(), name='message_detail'),
 
+    # Задачи от 14го
+    path('products/', ProductListView.as_view(), name='product_list'),
+    path('products/create/', ProductCreateView.as_view(), name='product_create'),
+    path('products/<int:pk>/update/', ProductUpdateView.as_view(), name='product_update'),
+    path('products/<int:pk>/delete/', ProductDeleteView.as_view(), name='product_delete'),
+    path('version/', version_form, name='version_form'),
 
 ]
+
