@@ -120,13 +120,19 @@ class Version(models.Model):
     version_number = models.CharField(max_length=100)
     version_name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     def __str__(self):
         return f"{self.product} - {self.version_number} ({self.version_name})"
 
     @staticmethod
+    @staticmethod
     def get_active_version_for_product(product):
         try:
-            return Version.objects.get(product=product, is_active=True)
+            return Version.objects.filter(product=product, is_active=True).latest('created_at')
         except Version.DoesNotExist:
             return None
+
+        # Если необходимо обработать случай более одной активной версии, например, выбрать самую новую версию:
+        except Version.MultipleObjectsReturned:
+            return Version.objects.filter(product=product, is_active=True).order_by('-created_at').first()
