@@ -6,6 +6,18 @@
         padding: 5px; /* Отступ внутри рамки */
         border-radius: 5px; /* Скругление углов */
     }
+
+    .active-version {
+        color: green; /* зеленый цвет для галочки */
+        font-size: 30px; /* размер шрифта галочки */
+        margin-left: 5px; /* отступ слева от текста */
+    }
+
+    .inactive-version {
+        color: red; /* красный цвет для крестика */
+        font-size: 30px; /* размер шрифта крестика */
+        margin-left: 5px; /* отступ слева от текста */
+    }
 </style>
 <div class="container">
     <div class="row">
@@ -16,13 +28,14 @@
                     <p>{{ product.description }}</p>
                     <p>Цена: ${{ product.price }}</p>
                     {% if product.image %}
-                    <img src="{{ product.image.url }}" class="img-fluid border-image"
-                         alt="{{ product.name }}">
+                        <img src="{{ product.image.url }}" class="img-fluid border-image" alt="{{ product.name }}">
                     {% else %}
-                    <p>Изображение отсутствует</p>
+                        <p>Изображение отсутствует</p>
                     {% endif %}
-                    {% if active_version %}
-                        <p>Активная версия: {{ active_version.version_number }} - {{ active_version.version_name }}</p>
+                    {% if is_active_version %}
+                        <p>Версия активна <span class="active-version">&#10003;</span></p>
+                    {% else %}
+                        <p>Версия не активна <span class="inactive-version">&#10007;</span></p>
                     {% endif %}
                 </div>
             </div>

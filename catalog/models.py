@@ -126,7 +126,6 @@ class Version(models.Model):
         return f"{self.product} - {self.version_number} ({self.version_name})"
 
     @staticmethod
-    @staticmethod
     def get_active_version_for_product(product):
         try:
             return Version.objects.filter(product=product, is_active=True).latest('created_at')

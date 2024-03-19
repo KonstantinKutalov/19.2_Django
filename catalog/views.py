@@ -25,6 +25,13 @@ class ProductDetailView(DetailView):
     template_name = 'catalog/product_detail.html'
     context_object_name = 'product'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.object
+        active_version = Version.get_active_version_for_product(product)
+        is_active_version = active_version.is_active if active_version else False
+        context['is_active_version'] = is_active_version
+        return context
 
 class BlogPostListView(ListView):
     model = BlogPost
@@ -136,7 +143,8 @@ class ProductListView(ListView):
         active_versions = {}
         for product in products:
             active_version = Version.get_active_version_for_product(product)
-            active_versions[product.pk] = active_version
+            is_active_version = active_version.is_active if active_version else False
+            active_versions[product.pk] = is_active_version
         context['active_versions'] = active_versions
         return context
 
