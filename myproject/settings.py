@@ -38,7 +38,9 @@ INSTALLED_APPS = [
 
     'catalog',
     #  'easy_thumbnails',
-    'crispy_forms'
+    'crispy_forms',
+    'users',
+
 ]
 
 MIDDLEWARE = [
@@ -134,3 +136,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+AUTH_USER_MODEL = 'users.USER'
+LOGIN_REDIRECT_URL ='/'
+LOGOUT_REDIRECT_URL = '/'
+
+
+
+#новое по заданию 22.2
