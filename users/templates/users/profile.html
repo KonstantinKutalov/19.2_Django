@@ -1,0 +1,17 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"> Профиль </h3>
+        </div>
+        <div class="card-body">
+            <p>Имя: {{ user.first_name }}</p>
+            <p>Фамилия: {{ user.last_name }}</p>
+            <p>Email: {{ user.email }}</p>
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary">Изменить данные</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

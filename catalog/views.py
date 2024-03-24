@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import TemplateView, DeleteView, CreateView, \
     UpdateView, ListView, DetailView
 from django.urls import reverse_lazy
@@ -7,7 +6,10 @@ from .models import BlogPost, Product, Recipient, MailingSettings, Message, Vers
 from .forms import RecipientForm, MailingSettingsForm, MessageForm, ProductForm, VersionFormStyled
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import AccessMixin
+from django.shortcuts import redirect
+from django.contrib import messages
 
 
 class HomeView(ListView):
@@ -32,6 +34,7 @@ class ProductDetailView(DetailView):
         is_active_version = active_version.is_active if active_version else False
         context['is_active_version'] = is_active_version
         return context
+
 
 class BlogPostListView(ListView):
     model = BlogPost
@@ -149,11 +152,26 @@ class ProductListView(ListView):
         return context
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, AccessMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'product_form.html'
     success_url = reverse_lazy('product_list')
+
+    def form_valid(self, form):
+        # Привязка текущего пользователя к создаваемому продукту
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
+    login_message = "Зарегистрируйтесь, чтобы добавить товар"
+    redirect_field_name = 'next'
+
+    def handle_no_permission(self):
+        if self.raise_exception or self.request.user.is_authenticated:
+            return super().handle_no_permission()
+
+        messages.info(self.request, self.login_message)
+        return redirect(reverse_lazy('register') + '?next=' + self.request.path)
 
 
 class ProductUpdateView(UpdateView):
@@ -179,3 +197,7 @@ def version_form(request):
     else:
         form = VersionFormStyled()
     return render(request, 'version_form.html', {'form': form})
+
+
+class RegisterView(TemplateView):
+    template_name = 'users/register.html'

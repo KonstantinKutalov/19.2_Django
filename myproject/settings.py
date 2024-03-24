@@ -145,3 +145,11 @@ LOGOUT_REDIRECT_URL = '/'
 
 
 #новое по заданию 22.2
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'skyprokutalov.k.v@mail.ru'
+EMAIL_HOST_PASSWORD = 'ud8KsqPUJmPxwHEXJbWd'
+DEFAULT_FROM_EMAIL = 'skyprokutalov.k.v@mail.ru'
