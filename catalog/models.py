@@ -4,7 +4,6 @@ from django.template.defaultfilters import slugify
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ObjectDoesNotExist
 
-
 NULLABLE = {'blank': True, 'null': True}
 
 
@@ -88,6 +87,8 @@ class Recipient(models.Model):
     def __str__(self):
         return self.email
 
+
+# От по курсовой
 class MailingSettings(models.Model):
     TIME_CHOICES = (
         ('daily', _('Daily')),
@@ -98,9 +99,11 @@ class MailingSettings(models.Model):
     frequency = models.CharField(_('Frequency'), max_length=10, choices=TIME_CHOICES)
     status = models.CharField(_('Status'), max_length=20, default='created')
 
+
 class Message(models.Model):
     subject = models.CharField(_('Subject'), max_length=255)
     body = models.TextField(_('Body'))
+
 
 class MailingLog(models.Model):
     recipient = models.ForeignKey(Recipient, on_delete=models.CASCADE)
@@ -112,6 +115,8 @@ class MailingLog(models.Model):
     def __str__(self):
         return f"{self.recipient.email} - {self.timestamp}"
 
+
+# До
 
 # Задачи от 14го
 

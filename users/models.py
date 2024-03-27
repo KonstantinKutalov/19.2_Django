@@ -12,6 +12,8 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to='users/', verbose_name='аватар', **NULLABLE)
     country = models.CharField(max_length=100, verbose_name='страна', **NULLABLE)
 
+    is_email_verified = models.BooleanField(default=False, verbose_name='Адрес электронной почты подтвержден')
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
