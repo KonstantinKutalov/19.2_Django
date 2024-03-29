@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import AccessMixin
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 
 
 class HomeView(ListView):
@@ -174,17 +175,31 @@ class ProductCreateView(LoginRequiredMixin, AccessMixin, CreateView):
         return redirect(reverse_lazy('register') + '?next=' + self.request.path)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'product_form.html'
     success_url = reverse_lazy('product_list')
 
+    def dispatch(self, request, *args, **kwargs):
+        # Проверяем, является ли текущий пользователь владельцем продукта
+        product = self.get_object()
+        if product.owner != self.request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
 
-class ProductDeleteView(DeleteView):
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = 'product_confirm_delete.html'
     success_url = reverse_lazy('product_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        # Проверяем, является ли текущий пользователь владельцем продукта
+        product = self.get_object()
+        if product.owner != self.request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
 
 
 def version_form(request):

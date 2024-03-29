@@ -1,6 +1,13 @@
-from django.core.management import BaseCommand
-from users.models import User
+import os
+import django
+from django.core.management.base import BaseCommand
+from django.conf import settings
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myproject.settings')
+
+django.setup()
+
+from users.models import User
 
 class Command(BaseCommand):
 

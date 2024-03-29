@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.template.defaultfilters import slugify
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -49,6 +50,9 @@ class Product(models.Model):
     manufactured_at = models.DateField(default=timezone.now, verbose_name='Дата производства продукта')
     attribute1 = models.CharField(max_length=100, blank=True, null=True, verbose_name='Атрибут 1')
     attribute2 = models.CharField(max_length=100, blank=True, null=True, verbose_name='Атрибут 2')
+    is_published = models.BooleanField(default=False, verbose_name='Опубликовано')  # Новое
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='products',
+                              verbose_name='Владелец', default=None, null=True)
 
     class Meta:
         verbose_name = 'Продукт'
