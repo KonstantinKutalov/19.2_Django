@@ -54,12 +54,48 @@ class Product(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='products',
                               verbose_name='Владелец', default=None, null=True)
 
+    def can_edit(self, user):
+        # Проверяем, является ли пользователь администратором
+        if user.is_superuser:
+            return True
+        # Проверяем, является ли пользователь владельцем продукта
+        if self.owner == user:
+            return True
+        # Проверяем, является ли пользователь модератором
+        if user.groups.filter(name='Moderators').exists():
+            return True
+        return False
+
+    def can_edit_fields(self, user):
+        # Если пользователь администратор, ему доступны все поля
+        if user.is_superuser:
+            return '__all__'
+        # Если пользователь владелец продукта, также доступны все поля
+        if self.owner == user:
+            return '__all__'
+        # Если пользователь модератор, доступны ограниченные поля
+        if user.groups.filter(name='Moderators').exists():
+            return ['is_published', 'category', 'description']
+        # В остальных случаях запрещаем редактирование
+        return []
+
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
 
     def __str__(self):
         return self.name
+
+    # Проверка прав доступа для редактирования поля
+    def user_can_edit_field(self, user, field_name):
+        if user.is_superuser:
+            return True  # Суперпользователи могут редактировать все поля
+        elif user.is_staff:
+            return field_name in ['is_published', 'category',
+                                  'description']  # Модераторы могут редактировать ограниченное кол-во полей
+        else:
+            return field_name not in ['created_at',
+                                      'updated_at']  # Обычные пользователи не могут редактировать даты создания и обновления
 
 
 class BlogPost(models.Model):

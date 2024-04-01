@@ -11,6 +11,7 @@ from django.contrib.auth.mixins import AccessMixin
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import user_passes_test
 
 
 class HomeView(ListView):
@@ -181,12 +182,21 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'product_form.html'
     success_url = reverse_lazy('product_list')
 
-    def dispatch(self, request, *args, **kwargs):
-        # Проверяем, является ли текущий пользователь владельцем продукта
-        product = self.get_object()
-        if product.owner != self.request.user:
-            raise PermissionDenied
-        return super().dispatch(request, *args, **kwargs)
+    # Проверка на суперпользователя или модератора
+    @user_passes_test(lambda u: u.is_superuser or u.is_staff)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        user = self.request.user
+        instance = self.get_object()
+        if user.is_staff:  # Если пользователь является модератором
+            fields_to_disable = ['name', 'price', 'created_at',
+                                 'updated_at']  # Поля, которые нужно отключить для модератора
+            for field in fields_to_disable:
+                form.fields[field].disabled = True
+        return form
 
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
