@@ -13,6 +13,8 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import user_passes_test
 
+from django.views.generic import ListView
+from catalog.services import get_cached_categories
 
 class HomeView(ListView):
     model = Product
@@ -226,3 +228,12 @@ def version_form(request):
 
 class RegisterView(TemplateView):
     template_name = 'users/register.html'
+
+
+
+class CategoryListView(ListView):
+    template_name = 'catalog/category_list.html'
+    context_object_name = 'categories'
+
+    def get_queryset(self):
+        return get_cached_categories()
