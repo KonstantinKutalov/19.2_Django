@@ -3,6 +3,7 @@
     <a class="btn btn-outline-primary" href="/contacts/">Контакты</a>
     <a class="btn btn-outline-primary" href="{% url 'blog_post_list' %}">Перейти к блогу</a>
     <a class="btn btn-outline-primary" href="{% url 'product_list' %}">Добавить товар</a>
+    <a class="btn btn-outline-primary" href="{% url 'model_actions' %}">Выбрать действие с рассылкой</a>
     <div class="btn-group ms-auto">
         {% if user.is_authenticated %}
         <form action="{% url 'users:profile' %}" method="post">

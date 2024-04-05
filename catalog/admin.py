@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import Student, Product, Category, BlogPost, Recipient, MailingSettings, Message, MailingLog
 
 
-
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'is_active',)
@@ -34,6 +33,7 @@ class BlogPostAdmin(admin.ModelAdmin):
 class RecipientAdmin(admin.ModelAdmin):
     list_display = ('email', 'full_name', 'comment')
 
+
 @admin.register(MailingSettings)
 class MailingSettingsAdmin(admin.ModelAdmin):
     list_display = ('send_time', 'frequency', 'status')
@@ -42,6 +42,7 @@ class MailingSettingsAdmin(admin.ModelAdmin):
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('subject', 'body')
+
 
 @admin.register(MailingLog)
 class MailingLogAdmin(admin.ModelAdmin):

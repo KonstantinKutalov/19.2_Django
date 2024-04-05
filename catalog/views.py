@@ -15,6 +15,8 @@ from django.contrib.auth.decorators import user_passes_test
 
 from django.views.generic import ListView
 from catalog.services import get_cached_categories
+from django.shortcuts import get_object_or_404
+
 
 class HomeView(ListView):
     model = Product
@@ -90,26 +92,44 @@ class BlogPostDeleteView(DeleteView):
     context_object_name = 'blog_post'
 
 
+# курсач
+class RecipientListView(ListView):
+    model = Recipient
+    template_name = 'mailing_templates/recipient_list.html'
+    context_object_name = 'recipients'
+
+
 class RecipientCreateView(CreateView):
     model = Recipient
     form_class = RecipientForm
     success_url = reverse_lazy('recipient_list')
+    template_name = 'mailing_templates/recipient_form.html'
 
 
 class RecipientUpdateView(UpdateView):
     model = Recipient
     form_class = RecipientForm
     success_url = reverse_lazy('recipient_list')
+    template_name = 'mailing_templates/recipient_form.html'
 
 
-class RecipientListView(ListView):
+class RecipientDeleteView(DeleteView):
     model = Recipient
+    success_url = reverse_lazy('recipient_list')
+    template_name = 'mailing_templates/recipient_confirm_delete.html'
 
 
 class MailingSettingsCreateView(CreateView):
     model = MailingSettings
     form_class = MailingSettingsForm
     success_url = reverse_lazy('mailingsettings_list')
+    template_name = 'mailing_templates/mailingsettings_form.html'
+
+
+class MailingSettingsListView(ListView):
+    model = MailingSettings
+    template_name = 'mailing_templates/mailingsettings_list.html'
+    context_object_name = 'mailing_settings'
 
 
 class MailingSettingsUpdateView(UpdateView):
@@ -118,23 +138,40 @@ class MailingSettingsUpdateView(UpdateView):
     success_url = reverse_lazy('mailingsettings_list')
 
 
-class MailingSettingsListView(ListView):
+class MailingSettingsDeleteView(DeleteView):
     model = MailingSettings
+    success_url = reverse_lazy('mailingsettings_list')
 
 
 class MessageCreateView(CreateView):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy('message_list')
+    template_name = 'mailing_templates/message_form.html'
+
+
+class MessageUpdateView(UpdateView):
+    model = Message
+    form_class = MessageForm
+    success_url = reverse_lazy('message_list')
+
+
+class MessageDeleteView(DeleteView):
+    model = Message
+    success_url = reverse_lazy('message_list')
 
 
 class MessageListView(ListView):
     model = Message
+    template_name = 'mailing_templates/message_list.html'
 
 
-class MessageDetailView(DetailView):
-    model = Message
+def message_detail(request, pk):
+    message = get_object_or_404(Message, pk=pk)
+    template_name = 'mailing_templates/message_detail.html'
+    return render(request, template_name, {'message': message})
 
+# jjjlk
 
 # Задачи от 14го
 
@@ -230,10 +267,13 @@ class RegisterView(TemplateView):
     template_name = 'users/register.html'
 
 
-
 class CategoryListView(ListView):
     template_name = 'catalog/category_list.html'
     context_object_name = 'categories'
 
     def get_queryset(self):
         return get_cached_categories()
+
+
+def model_actions(request):
+    return render(request, 'mailing_templates/model_actions.html')

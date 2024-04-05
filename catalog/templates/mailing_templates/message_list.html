@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список сообщений</title>
+</head>
+<body>
+    <h2>Список сообщений</h2>
+    <ul>
+        {% for message in object_list %}
+            <li>{{ message.subject }}
+                <a href="{% url 'message_detail' message.pk %}">Прочитать</a> |
+                <form action="{% url 'message_delete' message.pk %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" onclick="return confirm('Вы уверены, что хотите удалить это сообщение?')">Удалить</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>Пока нет сообщений.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav class="ms-5">
+    <a class="btn btn-outline-primary border-2 border-primary rounded-3 me-2" href="{% url 'recipient_create' %}">Создать получателя</a>
+    <a class="btn btn-outline-primary border-2 border-primary rounded-3 me-2" href="{% url 'mailingsettings_create' %}">Создать настройки рассылки</a>
+    <a class="btn btn-outline-primary border-2 border-primary rounded-3 me-2" href="{% url 'message_create' %}">Создать сообщение</a>
+</nav>
+{% endblock %}

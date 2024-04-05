@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Настройка рассылки</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+  </form>
+
+  <a href="{% url 'mailingsettings_list' %}" style="position: fixed; bottom: 20px; right: 20px;">
+    <button>Готовые настройки</button>
+  </a>
+{% endblock %}
